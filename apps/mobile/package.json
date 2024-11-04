@@ -9,6 +9,24 @@
     "react": "*",
     "react-native": "*",
     "react-native-svg": "*",
-    "metro-config": "*"
-  }
+    "metro-config": "*",
+    "@nx/eslint-plugin": "*",
+    "react-native-svg-transformer": "*",
+    "@react-navigation/native": "*",
+    "react-native-paper": "*",
+    "@react-navigation/native-stack": "*",
+    "@react-navigation/stack": "*",
+    "react-native-screens": "*",
+    "react-redux": "*",
+    "@reduxjs/toolkit": "*",
+    "react-native-safe-area-context": "*",
+    "vite": "*",
+    "@vitejs/plugin-react": "*",
+    "@nx/vite": "*",
+    "esbuild": "*",
+    "i18next": "*",
+    "react-i18next": "*",
+    "intl-pluralrules": "*"
+  },
+  "devDependencies": {}
 }
