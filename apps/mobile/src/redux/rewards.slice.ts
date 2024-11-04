@@ -1,5 +1,5 @@
-import type {PayloadAction} from '@reduxjs/toolkit';
-import {createSlice} from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 export type RewardId = string;
 
@@ -10,8 +10,9 @@ export interface RewardsState {
 const initialState: RewardsState = {
   rewardsList: [],
 };
-const isRewardExist = (products: RewardId[], productId: RewardId) => {
-  return products.some(product => product === productId);
+
+const isExistingReward = (products: RewardId[], productId: RewardId) => {
+  return products.some((product) => product === productId);
 };
 
 export const rewardsSlice = createSlice({
@@ -19,10 +20,10 @@ export const rewardsSlice = createSlice({
   initialState,
   reducers: {
     COLLECT_REWARD: (state, action: PayloadAction<RewardId>) => {
-      const {payload} = action;
-      const isExist = isRewardExist(state.rewardsList, payload);
+      const { payload } = action;
+      const rewardExists = isExistingReward(state.rewardsList, payload);
 
-      if (isExist) {
+      if (rewardExists) {
         return;
       }
 
@@ -31,6 +32,6 @@ export const rewardsSlice = createSlice({
   },
 });
 
-export const {COLLECT_REWARD} = rewardsSlice.actions;
+export const { COLLECT_REWARD } = rewardsSlice.actions;
 
 export default rewardsSlice.reducer;

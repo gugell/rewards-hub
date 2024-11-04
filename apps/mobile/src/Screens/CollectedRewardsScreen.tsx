@@ -1,21 +1,23 @@
-import React, {FC} from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import React, { FC } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import CollectedRewardItem from '../components/CollectedRewardItem';
 import useCollectedFetchRewards from '../hooks/useCollectedRewards';
-type CollectedRewardsScreenProps = {};
+
+type CollectedRewardsScreenProps = {
+  title: string;
+};
 
 const CollectedRewardsScreen: FC<CollectedRewardsScreenProps> = () => {
-  const {collectedRewards} = useCollectedFetchRewards();
+  const { collectedRewards } = useCollectedFetchRewards();
 
   return (
-    <SafeAreaView style={style.wrapper}>
+    <View style={style.wrapper}>
       <ScrollView style={style.body}>
-        {collectedRewards.map(reward => (
+        {collectedRewards.map((reward) => (
           <CollectedRewardItem key={reward.id} reward={reward} />
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 

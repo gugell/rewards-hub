@@ -7,6 +7,7 @@ import { useAppDispatch } from '../redux/store';
 import { Reward } from '@core';
 import { stripHtmlTags } from '@common';
 import RewardItemImage from './RewardItemImage';
+import { useTranslation } from 'react-i18next';
 
 type RewardItemProps = {
   reward: Reward;
@@ -15,29 +16,35 @@ type RewardItemProps = {
 const RewardItem: FC<RewardItemProps> = ({ reward }) => {
   const dispatch = useAppDispatch();
   const { isRewarded } = useReward();
+  const { t } = useTranslation();
+
   const onCollectPress = () => {
     Alert.alert(
       reward.bounty_redeem_alert_header,
       reward.bounty_redeem_alert_text,
       [
         {
-          text: 'Cancel',
+          text: t('cancel'),
           style: 'cancel',
         },
         {
-          text: 'Ok',
+          text: t('redeem'),
           onPress: () => dispatch(COLLECT_REWARD(reward.id)),
         },
       ],
       {
         cancelable: true,
-      },
+      }
     );
   };
 
   return (
     <Card
-      style={{ ...style.card, ...(isRewarded(reward.id) && style.cardRewarded) }}>
+      style={{
+        ...style.card,
+        ...(isRewarded(reward.id) && style.cardRewarded),
+      }}
+    >
       <Card.Title
         title={reward.name}
         titleNumberOfLines={0}
@@ -45,17 +52,19 @@ const RewardItem: FC<RewardItemProps> = ({ reward }) => {
         titleStyle={style.cardTitleText}
         subtitle={stripHtmlTags(reward.redeem_description)}
         leftStyle={style.imageWrapper}
-        left={props => <RewardItemImage size={props.size} uri={reward.image} />}
+        left={(props) => (
+          <RewardItemImage size={props.size} uri={reward.image} />
+        )}
         style={style.cardTitle}
       />
       <Card.Content style={style.cardContent}>
         {!!reward.needed_points && (
-          <Text>Needed points: {reward.needed_points}</Text>
+          <Text> {t('pointsRequired', { points: reward.needed_points })}</Text>
         )}
       </Card.Content>
       <Card.Actions>
         {!isRewarded(reward.id) && (
-          <Button onPress={onCollectPress}>Collect</Button>
+          <Button onPress={onCollectPress}> {t('collect')}</Button>
         )}
       </Card.Actions>
     </Card>

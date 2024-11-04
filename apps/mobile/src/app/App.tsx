@@ -1,15 +1,12 @@
-/* eslint-disable jsx-a11y/accessible-emoji */
 import { NavigationContainer } from '@react-navigation/native';
-import { ContextWrapper } from '../components/ContextWrapper';
-import { PaperProvider } from 'react-native-paper';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StackScreenProps } from '@react-navigation/stack';
+import { useTranslation } from 'react-i18next';
 import { StatusBar, useColorScheme } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import CollectedRewardsScreen from '../screens/CollectedRewardsScreen';
-import AvailableRewardsScreen from '../screens/AvailableRewardsScreen';
-import { StackScreenProps } from '@react-navigation/stack';
-import { Provider } from 'react-redux';
-import { store } from '../redux/store';
+import { ContextWrapper } from '../components/ContextWrapper';
+import AvailableRewardsScreen from '../Screens/AvailableRewardsScreen';
+import CollectedRewardsScreen from '../Screens/CollectedRewardsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,28 +23,29 @@ const App = () => {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+  const { t } = useTranslation();
 
   return (
-    <Provider store={store}>
-      <PaperProvider>
-        <NavigationContainer>
-          <StatusBar
-            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-            backgroundColor={backgroundStyle.backgroundColor}
+    <ContextWrapper>
+      <NavigationContainer>
+        <StatusBar
+          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+          backgroundColor={backgroundStyle.backgroundColor}
+        />
+        <Stack.Navigator initialRouteName="AvailableRewardsScreen">
+          <Stack.Screen
+            name="AvailableRewardsScreen"
+            options={{ title: t('home') }}
+            component={AvailableRewardsScreen}
           />
-          <Stack.Navigator initialRouteName="AvailableRewardsScreen">
-            <Stack.Screen
-              name="AvailableRewardsScreen"
-              component={AvailableRewardsScreen}
-            />
-            <Stack.Screen
-              name="CollectedRewardsScreen"
-              component={CollectedRewardsScreen}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </PaperProvider>
-    </Provider>
+          <Stack.Screen
+            name="CollectedRewardsScreen"
+            options={{ title: t('collectedItems') }}
+            component={CollectedRewardsScreen}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ContextWrapper>
   );
 };
 
