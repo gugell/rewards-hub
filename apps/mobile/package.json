@@ -26,7 +26,8 @@
     "esbuild": "*",
     "i18next": "*",
     "react-i18next": "*",
-    "intl-pluralrules": "*"
+    "intl-pluralrules": "*",
+    "react-native-config": "*"
   },
   "devDependencies": {}
 }

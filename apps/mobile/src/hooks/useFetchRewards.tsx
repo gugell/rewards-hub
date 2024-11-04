@@ -1,6 +1,6 @@
-import {useCallback, useEffect, useState} from 'react';
-import {Reward} from '../types/Reward';
-import {RewardResponseMeta, RewardsResponse} from '../types/RewardsResponse';
+import { useCallback, useEffect, useState } from 'react';
+import { RewardResponseMeta, RewardsResponse, Reward, useConfig } from '@core';
+import Config from 'react-native-config';
 
 const useFetchRewards = () => {
   const [rewards, setAllRewards] = useState<RewardsResponse['results']>([]);
@@ -9,8 +9,9 @@ const useFetchRewards = () => {
   const [meta, setMeta] = useState<RewardResponseMeta | null>(null);
   const [isEnd, setIsEnd] = useState(false);
   const filteredRewards = rewards.filter((reward: Reward) => reward.image);
-  const initialApiUrl =
-    'https://staging.helloagain.at/api/v1/clients/5189/bounties?limit=10&page=1';
+  const config = useConfig();
+
+  const initialApiUrl = config.apiUrl + '?limit=10&page=1';
 
   const fetchRewards = async (shouldFetchNextData = true) => {
     try {
@@ -21,7 +22,7 @@ const useFetchRewards = () => {
       setIsLoading(true);
       setIsError(false);
       const rewardsResponse = await fetch(
-        shouldFetchNextData ? meta?.next ?? initialApiUrl : initialApiUrl,
+        shouldFetchNextData ? meta?.next ?? initialApiUrl : initialApiUrl
       );
       const rewardsJson = (await rewardsResponse.json()) as RewardsResponse;
 
@@ -33,8 +34,8 @@ const useFetchRewards = () => {
 
       setAllRewards(
         shouldFetchNextData
-          ? prev => [...prev, ...rewardsJson.results]
-          : rewardsJson.results,
+          ? (prev) => [...prev, ...rewardsJson.results]
+          : rewardsJson.results
       );
       setMeta(rewardsMeta);
 
@@ -42,7 +43,7 @@ const useFetchRewards = () => {
         setIsEnd(true);
       }
     } catch (error) {
-      console.log('🚀 ~ useEffect ~ error:', error);
+      //TODO: handle error if needed
       setIsError(true);
     } finally {
       setIsLoading(false);
@@ -56,9 +57,9 @@ const useFetchRewards = () => {
 
   useEffect(() => {
     fetchFirstRewards();
-  }, [fetchFirstRewards]);
+  }, [fetchFirstRewards, config]);
 
-  return {fetchRewards, rewards: filteredRewards, isLoading, isError};
+  return { fetchRewards, rewards: filteredRewards, isLoading, isError };
 };
 
 export default useFetchRewards;

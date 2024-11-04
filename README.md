@@ -49,6 +49,11 @@ yarn start
 
 ### Step 5: Open the Xcode project and run it on your target
 
+## Improvements & Future Enhancements
+
+- Better lookup logic for collected items: Store them in the local storage or persistence for later use.
+- Error Handling: Improve error feedback for a smoother user experience i.e. Introduce Retry logic.
+
 ## Let me know your thoughts:
 
 - [Linkedin](https://www.linkedin.com/in/iliagutu/)
